@@ -36,7 +36,9 @@ RUN apt-get update && apt-get install -y \
   libxml2-dev \
   libfftw3-dev \
   libpoppler-glib-dev \
-  libwebp-dev
+  libwebp-dev \
+  imagemagick \
+  libmagickwand-dev
 
 # build our stack to this prefix
 ARG VIPS_PREFIX=/usr/local/vips
@@ -48,15 +50,16 @@ ENV PKG_CONFIG_PATH=$VIPS_PREFIX/lib/pkgconfig
 # build area
 WORKDIR /usr/local/src
 
-ARG GIFLIB_VERSION=5.1.4
-ARG GIFLIB_URL=http://downloads.sourceforge.net/project/giflib
-
-RUN wget ${GIFLIB_URL}/giflib-$GIFLIB_VERSION.tar.bz2 \
-  && tar xf giflib-${GIFLIB_VERSION}.tar.bz2 \
-  && cd giflib-${GIFLIB_VERSION} \
-  && ./configure --prefix=$VIPS_PREFIX \
-  && make V=0 \
-  && make install
+# Remove to build with ImageMagick by default instead
+#ARG GIFLIB_VERSION=5.1.4
+#ARG GIFLIB_URL=http://downloads.sourceforge.net/project/giflib
+#
+#RUN wget ${GIFLIB_URL}/giflib-$GIFLIB_VERSION.tar.bz2 \
+#  && tar xf giflib-${GIFLIB_VERSION}.tar.bz2 \
+#  && cd giflib-${GIFLIB_VERSION} \
+#  && ./configure --prefix=$VIPS_PREFIX \
+#  && make V=0 \
+#  && make install
 
 ARG ORC_VERSION=0.4.28
 ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
